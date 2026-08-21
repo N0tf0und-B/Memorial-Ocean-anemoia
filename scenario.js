@@ -79,7 +79,7 @@ const SCENARIO = [
   /* ===== 오프닝 ===== */
   { c:'curtain', open:true, ms:2600 },
   { c:'video',   play:true },
-  { c:'bgm',     play:'파도소리,바다', fade:4000 },
+  { c:'bgm',     play:'wave', fade:4000 },
   { c:'wait',    ms:3400 },
 
   { c:'narr', t:'쏴아아—' },
@@ -92,7 +92,7 @@ const SCENARIO = [
 
   { c:'narr', t:'8월. 낮의 열기가 아직 모래 밑에 남아 있어서, 신발 너머로도 미지근했다.\n바람만은 서늘했다.' },
 
-  { c:'se',   play:'모래발걸음' },
+  { c:'se',   play:'step' },
   { c:'narr', t:'발을 옮길 때마다 젖은 모래가 발목까지 무너져 내렸다.' },
 
   { c:'narr', t:'인적은 적었다.' },
