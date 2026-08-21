@@ -59,8 +59,8 @@ const AUD = {
   step:  $('a-step'),
 };
 
-const AUDIO_DEBUG = true;        // 배포하실 때 false 로 바꾸십시오
-const pendingPlay = new Set();   // 자동재생 차단으로 밀린 것들
+const AUDIO_DEBUG = true;
+const pendingPlay = new Set();
 
 function alog(...a){ if(AUDIO_DEBUG) console.log('[audio]', ...a); }
 
@@ -127,7 +127,6 @@ function fadeAudio(a, to, ms){
   })(performance.now());
 }
 
-/* 자동재생 차단 해제 */
 function unlockAudio(){
   pendingPlay.forEach(a=>{
     a.play().then(()=>{
@@ -250,12 +249,11 @@ async function startVideo(){
   v.classList.add('on');
 }
 
-/* 새롭게 추가된 이미지 배경 출력 함수 */
 async function showImage(src){
   const v = $('bg-video');
   if(v) {
     v.pause();
-    v.classList.remove('on'); // 비디오가 켜져 있다면 끕니다
+    v.classList.remove('on');
   }
 
   let img = $('bg-image');
@@ -268,15 +266,30 @@ async function showImage(src){
     img.style.width = '100%';
     img.style.height = '100%';
     img.style.objectFit = 'cover';
-    img.style.zIndex = '0'; // 비디오 뒤쪽에 깔림
-    img.style.opacity = '0'; // 페이드인 효과를 위한 초기값
-    img.style.transition = 'opacity 1.2s ease'; // 부드럽게 나타나게
+    img.style.zIndex = '0';
+    img.style.opacity = '0';
     
     $('bg-wrap').appendChild(img);
   }
   
+  img.style.transition = 'opacity 1.2s ease';
   img.src = src;
   setTimeout(() => { img.style.opacity = '1'; }, 50);
+}
+
+/* 🔽 텍스트 박스는 두고 배경만 까맣게 끄는 기능 🔽 */
+async function hideBg(ms){
+  const img = $('bg-image');
+  if(img){
+    img.style.transition = `opacity ${ms}ms ease`;
+    img.style.opacity = '0'; // 배경을 서서히 투명하게 만들어서 검은색이 보이게 함
+  }
+  const v = $('bg-video');
+  if(v){
+    v.style.transition = `opacity ${ms}ms ease`;
+    v.style.opacity = '0';
+  }
+  await sleep(ms);
 }
 
 async function shake(){
@@ -310,6 +323,10 @@ async function run(){
 
       case 'image':
         await showImage(step.src);
+        break;
+
+      case 'hide_bg':
+        await hideBg(step.ms ?? 1500);
         break;
 
       case 'bgm':
@@ -350,7 +367,7 @@ async function run(){
 }
 
 /* ---------------------------------------------------------
-   저장
+   저장 및 초기화 생략 (아래 컨트롤 부분 그대로 유지)
    --------------------------------------------------------- */
 function saveProgress(){
   try{ localStorage.setItem('anemoia_idx', String(state.idx)); }catch(e){}
@@ -361,9 +378,6 @@ function loadProgress(){
   catch(e){ return 0; }
 }
 
-/* ---------------------------------------------------------
-   초기화
-   --------------------------------------------------------- */
 $('t-main').textContent = CONFIG.titleMain;
 $('t-sub').textContent  = CONFIG.titleSub;
 $('t-note').textContent = CONFIG.titleNote;
@@ -392,7 +406,6 @@ function startGame(fromIdx){
   run();
 }
 
-/* 게이트 */
 function tryGate(){
   const v = $('gate-input').value.trim();
   if(!CONFIG.password || v === CONFIG.password){
@@ -406,7 +419,6 @@ function tryGate(){
 $('gate-submit').addEventListener('click', tryGate);
 $('gate-input').addEventListener('keydown', e=>{ if(e.key === 'Enter') tryGate(); });
 
-/* 타이틀 */
 $('title').addEventListener('click', e=>{
   const act = e.target.dataset.act;
   if(act === 'start')    startGame(0);
@@ -414,7 +426,6 @@ $('title').addEventListener('click', e=>{
   if(act === 'config')   $('config').classList.remove('hidden');
 });
 
-/* 진행 */
 $('stage').addEventListener('click', e=>{
   if(e.target.closest('#controls')) return;
   doAdvance();
@@ -427,7 +438,6 @@ window.addEventListener('keydown', e=>{
   if(e.key === 'Escape')  closePanels();
 });
 
-/* 컨트롤 */
 $('controls').addEventListener('click', e=>{
   const act = e.target.dataset.act;
   if(!act) return;
@@ -462,7 +472,6 @@ $('controls').addEventListener('click', e=>{
   }
 });
 
-/* 패널 */
 function closePanels(){
   $('backlog').classList.add('hidden');
   $('config').classList.add('hidden');
@@ -471,19 +480,16 @@ document.querySelectorAll('.panel-close').forEach(b=> b.addEventListener('click'
 $('backlog').addEventListener('click', e=>{ if(e.target.id === 'backlog') closePanels(); });
 $('config').addEventListener('click',  e=>{ if(e.target.id === 'config')  closePanels(); });
 
-/* 슬라이더 */
 $('cfg-speed').addEventListener('input', e=>{ CONFIG.typeSpeed = 100 - Number(e.target.value); });
 $('cfg-auto').addEventListener('input',  e=>{ CONFIG.autoDelay = Number(e.target.value); });
 $('cfg-bgm').addEventListener('input',   e=>{ CONFIG.bgmVolume = Number(e.target.value)/100; applyVolumes(); });
 $('cfg-se').addEventListener('input',    e=>{ CONFIG.seVolume  = Number(e.target.value)/100; applyVolumes(); });
 
-/* 엔딩 */
 $('ending-replay').addEventListener('click', ()=>{
   $('ending').classList.add('hidden');
   $('title').classList.remove('hidden');
 });
 
-/* 게이트 미사용 시 바로 타이틀 */
 if(!CONFIG.password){
   $('gate').classList.add('hidden');
   $('title').classList.remove('hidden');
