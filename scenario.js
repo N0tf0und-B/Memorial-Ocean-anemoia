@@ -9,7 +9,7 @@
 const CONFIG = {
   password: '',
   titleMain: '01',
-  titleSub:  '해당 사이트는 개인 로그용으로, 링크 외부 유출을 금합니다. 사용된 영상 · 음악 · 사진은 전부 저작권이 없는 에셋입니다.',
+  titleSub:  '해당 사이트는 개인 로그용으로, 링크 외부 유출을 금합니다. \n 사용된 영상 · 음악 · 사진은 전부 저작권이 없는 에셋입니다.',
   titleNote: '헤드폰 착용을 권합니다.',
   video: 'assets/night_sea.mp4',
   waves: 'assets/waves_loop.mp3',
