@@ -79,7 +79,7 @@ const SCENARIO = [
   /* ===== 오프닝 ===== */
   { c:'curtain', open:true, ms:2600 },
   { c:'video',   play:true },
-  { c:'bgm',     play:'wave', fade:4000 },
+  { c:'bgm',     play:'waves', fade:4000 },
   { c:'wait',    ms:3400 },
 
   { c:'narr', t:'쏴아아—' },
