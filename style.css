@@ -506,3 +506,16 @@ button{
   #controls{gap:.75rem;top:.8rem;right:.9rem;}
   .title-main{letter-spacing:.35rem;}
 }
+
+/* 화면 흔들기 */
+#bg-wrap.shake{ animation:shakeCam .42s ease-in-out; }
+@keyframes shakeCam{
+  0%,100%{transform:translate(0,0);}
+  20%{transform:translate(-6px,3px);}
+  40%{transform:translate(5px,-4px);}
+  60%{transform:translate(-4px,-2px);}
+  80%{transform:translate(3px,4px);}
+}
+
+/* 백로그 대사 구분 */
+#backlog-list p.said{ color:#cfdde4; }
