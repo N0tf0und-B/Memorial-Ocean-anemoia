@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>404 not found</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gaegu:wght@300;400;700&family=Noto+Serif+KR:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== 0. 비밀번호 게이트 ===== -->
+<div id="gate" class="layer">
+  <div class="gate-box">
+    <p class="gate-code">404</p>
+    <p class="gate-msg">not found</p>
+    <input type="password" id="gate-input" autocomplete="off" spellcheck="false" placeholder="">
+    <button id="gate-submit" type="button">확인</button>
+    <p class="gate-error" id="gate-error"></p>
+  </div>
+</div>
+
+<!-- ===== 1. 타이틀 ===== -->
+<div id="title" class="layer hidden">
+  <div class="title-vignette"></div>
+  <div class="title-inner">
+    <h1 class="title-main">잠기는가</h1>
+    <p class="title-sub">— anemoia —</p>
+    <nav class="title-menu">
+      <button type="button" data-act="start">START</button>
+      <button type="button" data-act="continue">CONTINUE</button>
+      <button type="button" data-act="config">CONFIG</button>
+    </nav>
+    <p class="title-note">헤드폰 착용을 권합니다.</p>
+  </div>
+</div>
+
+<!-- ===== 2. 본편 스테이지 ===== -->
+<main id="stage" class="layer hidden">
+
+  <!-- 배경 영상 -->
+  <div id="bg-wrap">
+    <video id="bg-video" muted loop playsinline preload="auto"></video>
+    <div id="bg-tint"></div>
+    <div id="bg-grain"></div>
+    <div id="bg-vignette"></div>
+  </div>
+
+  <!-- 화면 위 클릭 오브젝트 -->
+  <div id="objects"></div>
+
+  <!-- 수첩 뷰 -->
+  <div id="notebook" class="hidden">
+    <div id="notebook-book">
+      <div id="notebook-paper">
+        <div id="paper-stains"></div>
+        <div id="paper-lines"></div>
+        <div id="paper-text"></div>
+        <div id="paper-tornedge" class="hidden"></div>
+      </div>
+      <div id="notebook-shadow"></div>
+    </div>
+    <p id="notebook-hint">클릭하여 다음 장</p>
+  </div>
+
+  <!-- 하단 텍스트박스 -->
+  <div id="textbox" class="hidden">
+    <div id="speaker" class="hidden"></div>
+    <div id="dialogue"></div>
+    <div id="next-arrow" class="hidden">▼</div>
+  </div>
+
+  <!-- 우상단 컨트롤 -->
+  <div id="controls">
+    <button type="button" data-act="auto">AUTO</button>
+    <button type="button" data-act="skip">SKIP</button>
+    <button type="button" data-act="backlog">LOG</button>
+    <button type="button" data-act="config">CONFIG</button>
+    <button type="button" data-act="quit">TITLE</button>
+  </div>
+
+  <!-- 전환용 검은 막 -->
+  <div id="curtain"></div>
+  <div id="flash"></div>
+</main>
+
+<!-- ===== 3. 백로그 ===== -->
+<div id="backlog" class="layer hidden">
+  <div class="panel">
+    <h2>LOG</h2>
+    <div id="backlog-list"></div>
+    <button type="button" class="panel-close" data-act="close-backlog">닫기</button>
+  </div>
+</div>
+
+<!-- ===== 4. 설정 ===== -->
+<div id="config" class="layer hidden">
+  <div class="panel">
+    <h2>CONFIG</h2>
+    <label>
+      <span>텍스트 속도</span>
+      <input type="range" id="cfg-speed" min="0" max="100" value="60">
+    </label>
+    <label>
+      <span>오토 대기</span>
+      <input type="range" id="cfg-auto" min="300" max="4000" step="100" value="1500">
+    </label>
+    <label>
+      <span>환경음</span>
+      <input type="range" id="cfg-bgm" min="0" max="100" value="55">
+    </label>
+    <label>
+      <span>효과음</span>
+      <input type="range" id="cfg-se" min="0" max="100" value="70">
+    </label>
+    <button type="button" class="panel-close" data-act="close-config">닫기</button>
+  </div>
+</div>
+
+<!-- ===== 5. 엔딩 ===== -->
+<div id="ending" class="layer hidden">
+  <div class="ending-inner">
+    <p id="ending-line1">서버와의 연결이 끊어졌습니다.</p>
+    <p id="ending-line2">404 not found</p>
+    <button type="button" id="ending-replay">다시 읽기</button>
+  </div>
+</div>
+
+<!-- 오디오 -->
+<audio id="a-waves" loop preload="auto"></audio>
+<audio id="a-page" preload="auto"></audio>
+<audio id="a-tear" preload="auto"></audio>
+<audio id="a-step" preload="auto"></audio>
+<audio id="a-pickup" preload="auto"></audio>
+<audio id="a-heart" loop preload="auto"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
