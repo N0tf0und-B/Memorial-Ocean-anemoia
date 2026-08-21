@@ -17,7 +17,7 @@ const SCENARIO = [
   { c:'curtain', open:true, ms:2600 },
   { c:'image', src:'assets/night_sea.jpg' }, 
   { c:'bgm',     play:'waves', fade:4000 },
-  { c:'bgm',     play:'music', vol: 0.1, fade: 4000 },
+  { c:'bgm',     play:'music', vol: 0.5, fade: 4000 },
   { c:'wait',    ms:3400 },
 
   { c:'narr', t:'쏴아아—' },
