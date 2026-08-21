@@ -54,10 +54,18 @@ function doAdvance(){
 /* ---------------------------------------------------------
    오디오
    --------------------------------------------------------- */
-const AUD = {
-  waves: $('a-waves'),
-  step:  $('a-step'),
-};
+const AUD = {};
+
+// HTML에 오디오 태그가 없어도 자동으로 생성하게 만듭니다
+['waves', 'step', 'music'].forEach(key => {
+  let a = $('a-' + key);
+  if(!a){
+    a = document.createElement('audio');
+    a.id = 'a-' + key;
+    document.body.appendChild(a);
+  }
+  AUD[key] = a;
+});
 
 const AUDIO_DEBUG = true;
 const pendingPlay = new Set();
@@ -65,12 +73,12 @@ const pendingPlay = new Set();
 function alog(...a){ if(AUDIO_DEBUG) console.log('[audio]', ...a); }
 
 function bindAudio(){
-  const map = { waves: CONFIG.waves, step: CONFIG.step };
+  // music 항목 추가됨
+  const map = { waves: CONFIG.waves, step: CONFIG.step, music: CONFIG.music };
 
   Object.entries(map).forEach(([key, path])=>{
     const a = AUD[key];
-    if(!a){ alog(key, '오디오 엘리먼트가 없습니다'); return; }
-    if(!path){ alog(key, 'CONFIG 경로가 비어 있습니다'); return; }
+    if(!path) return;
     if(a.src) return;
 
     a.src = path;
@@ -277,12 +285,11 @@ async function showImage(src){
   setTimeout(() => { img.style.opacity = '1'; }, 50);
 }
 
-/* 🔽 텍스트 박스는 두고 배경만 까맣게 끄는 기능 🔽 */
 async function hideBg(ms){
   const img = $('bg-image');
   if(img){
     img.style.transition = `opacity ${ms}ms ease`;
-    img.style.opacity = '0'; // 배경을 서서히 투명하게 만들어서 검은색이 보이게 함
+    img.style.opacity = '0'; 
   }
   const v = $('bg-video');
   if(v){
@@ -367,7 +374,7 @@ async function run(){
 }
 
 /* ---------------------------------------------------------
-   저장 및 초기화 생략 (아래 컨트롤 부분 그대로 유지)
+   저장
    --------------------------------------------------------- */
 function saveProgress(){
   try{ localStorage.setItem('anemoia_idx', String(state.idx)); }catch(e){}
@@ -378,6 +385,9 @@ function loadProgress(){
   catch(e){ return 0; }
 }
 
+/* ---------------------------------------------------------
+   초기화
+   --------------------------------------------------------- */
 $('t-main').textContent = CONFIG.titleMain;
 $('t-sub').textContent  = CONFIG.titleSub;
 $('t-note').textContent = CONFIG.titleNote;
@@ -406,6 +416,7 @@ function startGame(fromIdx){
   run();
 }
 
+/* 게이트 */
 function tryGate(){
   const v = $('gate-input').value.trim();
   if(!CONFIG.password || v === CONFIG.password){
@@ -419,6 +430,7 @@ function tryGate(){
 $('gate-submit').addEventListener('click', tryGate);
 $('gate-input').addEventListener('keydown', e=>{ if(e.key === 'Enter') tryGate(); });
 
+/* 타이틀 */
 $('title').addEventListener('click', e=>{
   const act = e.target.dataset.act;
   if(act === 'start')    startGame(0);
@@ -426,6 +438,7 @@ $('title').addEventListener('click', e=>{
   if(act === 'config')   $('config').classList.remove('hidden');
 });
 
+/* 진행 */
 $('stage').addEventListener('click', e=>{
   if(e.target.closest('#controls')) return;
   doAdvance();
@@ -438,6 +451,7 @@ window.addEventListener('keydown', e=>{
   if(e.key === 'Escape')  closePanels();
 });
 
+/* 컨트롤 */
 $('controls').addEventListener('click', e=>{
   const act = e.target.dataset.act;
   if(!act) return;
@@ -472,6 +486,7 @@ $('controls').addEventListener('click', e=>{
   }
 });
 
+/* 패널 */
 function closePanels(){
   $('backlog').classList.add('hidden');
   $('config').classList.add('hidden');
@@ -480,16 +495,19 @@ document.querySelectorAll('.panel-close').forEach(b=> b.addEventListener('click'
 $('backlog').addEventListener('click', e=>{ if(e.target.id === 'backlog') closePanels(); });
 $('config').addEventListener('click',  e=>{ if(e.target.id === 'config')  closePanels(); });
 
+/* 슬라이더 */
 $('cfg-speed').addEventListener('input', e=>{ CONFIG.typeSpeed = 100 - Number(e.target.value); });
 $('cfg-auto').addEventListener('input',  e=>{ CONFIG.autoDelay = Number(e.target.value); });
 $('cfg-bgm').addEventListener('input',   e=>{ CONFIG.bgmVolume = Number(e.target.value)/100; applyVolumes(); });
 $('cfg-se').addEventListener('input',    e=>{ CONFIG.seVolume  = Number(e.target.value)/100; applyVolumes(); });
 
+/* 엔딩 */
 $('ending-replay').addEventListener('click', ()=>{
   $('ending').classList.add('hidden');
   $('title').classList.remove('hidden');
 });
 
+/* 게이트 미사용 시 바로 타이틀 */
 if(!CONFIG.password){
   $('gate').classList.add('hidden');
   $('title').classList.remove('hidden');
