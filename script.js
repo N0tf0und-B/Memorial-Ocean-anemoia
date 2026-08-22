@@ -1,6 +1,5 @@
 /* =========================================================
-   script.js — 엔진
-   본문 수정은 scenario.js 에서 하십시오.
+대사 수정은 시나리오에서!!!
    ========================================================= */
 
 const $ = id => document.getElementById(id);
@@ -17,7 +16,7 @@ const state = {
 };
 
 /* ---------------------------------------------------------
-   유틸
+   듀듀듀듀
    --------------------------------------------------------- */
 function sleep(ms){
   return new Promise(res=>{
@@ -56,7 +55,7 @@ function doAdvance(){
    --------------------------------------------------------- */
 const AUD = {};
 
-// HTML에 오디오 태그가 없어도 자동으로 생성하게 만듭니다
+// 오디오태그가없으면자동으로
 ['waves', 'step', 'music'].forEach(key => {
   let a = $('a-' + key);
   if(!a){
@@ -73,7 +72,7 @@ const pendingPlay = new Set();
 function alog(...a){ if(AUDIO_DEBUG) console.log('[audio]', ...a); }
 
 function bindAudio(){
-  // music 항목 추가됨
+  // music 무식
   const map = { waves: CONFIG.waves, step: CONFIG.step, music: CONFIG.music };
 
   Object.entries(map).forEach(([key, path])=>{
@@ -148,9 +147,6 @@ function unlockAudio(){
 window.addEventListener('pointerdown', unlockAudio);
 window.addEventListener('keydown', unlockAudio);
 
-/* ---------------------------------------------------------
-   타이핑
-   --------------------------------------------------------- */
 async function typeInto(node, html){
   node.innerHTML = '';
 
