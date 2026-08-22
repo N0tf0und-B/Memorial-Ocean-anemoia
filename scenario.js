@@ -1,7 +1,7 @@
 const CONFIG = {
   password: '',
   titleMain: '01',
-  titleSub:  '해당 사이트는 개인 로그용으로, 링크 외부 유출을 금합니다. 백그라운드에서도 음악을 들을 수 있습니다.',
+  titleSub:  '해당 사이트는 개인 로그용으로, 링크 외부 유출을 금합니다. 다만 코드가 궁금하신 분은 찾아보셔도 좋습니다. 백그라운드에서도 음악을 들을 수 있습니다.',
   titleNote: '사용된 영상 · 음악 · 사진은 전부 저작권이 없는 에셋입니다. 또한, 헤드폰 착용을 권합니다.',
   video: 'assets/night_sea.mp4',
   waves: 'assets/waves_loop.mp3',
